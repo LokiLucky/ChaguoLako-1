@@ -25,20 +25,20 @@
 
 	
 	<% if @poll.user_has_voted?(session[:user].id) %>
-		<p> Sorry but you have already Voted.! </p>
-		<table>
-			<tr>
-				<th>Option</th>
-				<th># of Votes Cast</th>
-			</tr>
-			<% @poll.options.each do |option| %>
-			<tr>
-				<th><%= option.name %></th>
-				<th><%= option.votes.count %></th>
-			</tr>
-			<% end %>
+	<p> Sorry but you have already Voted.! </p>
+	<table>
+		<tr>
+			<th>Option</th>
+			<th># of Votes Cast</th>
+		</tr>
+		<% @poll.options.each do |option| %>
+		<tr>
+			<th><%= option.name %></th>
+			<th><%= option.votes.count %></th>
+		</tr>
+		<% end %>
 
-		</table>
+	</table>
 
 	<% else %>
 	<strong>Options</strong>
@@ -46,25 +46,28 @@
 
 	<%= form_for(@vote) do |f| %>
 
-	<% @poll.options.each  do |option| %>
 	<ul>
+	<% @poll.options.each  do |option| %>
+	
 		<% if voter_is_logged_in? %>
 		<p>
 			<%= radio_button_tag("option", option.id) %> <%= option.name %>
-			<% if admin_is_logged_in? %> | 
-			<%= link_to 'Edit', edit_poll_option_path(@poll, option) %>
-			<% end %>
 		</p>
 		<% else %>
 		<li>
-			<%= option.name %>
+			<%= option.name %> | 
+			<%= link_to 'Edit', edit_poll_option_path(@poll, option) %>
 		</li>
 		<% end %>
-	</ul>
+	
 	<% end %>
+	</ul>
+	<% if voter_is_logged_in? %>
 	<div class="actions">
 		<%= f.submit "Cast Vote.!" %>
 	</div>
+
+	<% end %>
 	<% end %>
 	<% end %>
 

@@ -10,11 +10,15 @@
 </head>
 <body>
 	<% if user_is_logged_in? %>
-	<%= session[:user].username %> |
-	<%= link_to "Log Out", log_out_path%>
+		<%= session[:user].username %> |
+		<% if voter_is_logged_in? %>
+			<%= link_to "Edit Profile", edit_voter_path(session[:user]_id) %> | 
+		<% end %>
+		<%= link_to "Log Out", log_out_path%>
+
 	<% else %>
-	<%= link_to "Register", new_voter_path %> |
-	<%= link_to "Sign In", new_session_path %>
+		<%= link_to "Register", new_voter_path %> |
+		<%= link_to "Sign In", new_session_path %>
 	<% end %>
 	
 	<h2> Chaguo Lako </h2>
